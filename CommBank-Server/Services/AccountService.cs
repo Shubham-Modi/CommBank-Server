@@ -7,10 +7,16 @@ namespace CommBank.Services;
 public class AccountsService : IAccountsService
 {
     private readonly IMongoCollection<Account> _accountsCollection;
+    private readonly String accountsCollectionName = "Accounts";
 
     public AccountsService(IMongoDatabase mongoDatabase)
     {
-        _accountsCollection = mongoDatabase.GetCollection<Account>("Accounts");
+        _accountsCollection = mongoDatabase.GetCollection<Account>(accountsCollectionName);
+    }
+
+    public void createCollection(IMongoDatabase mongoDatabase)
+    {
+        mongoDatabase.CreateCollection(accountsCollectionName);
     }
 
     public async Task<List<Account>> GetAsync() =>
